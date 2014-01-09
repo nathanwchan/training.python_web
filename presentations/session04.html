@@ -44,16 +44,16 @@
 <p class="image-credit">image: The Wandering Angel <a class="reference external" href="http://www.flickr.com/photos/wandering_angel/1467802750/">http://www.flickr.com/photos/wandering_angel/1467802750/</a> - CC-BY</p>
 
 </div>
-<div class="slide" id="yesterday">
-<h1>Yesterday</h1>
+<div class="slide" id="previously">
+<h1>Previously</h1>
 <ul class="incremental simple">
-<li>We learned about passing messages back and forth with sockets</li>
-<li>We created a simple HTTP server using sockets</li>
-<li>We may even have made our server <em>dynamic</em> by returning the output of a
+<li>You've learned about passing messages back and forth with sockets</li>
+<li>You've created a simple HTTP server using sockets</li>
+<li>You may even have made your server <em>dynamic</em> by returning the output of a
 python script.</li>
 </ul>
-<p class="incremental">What if we want to pass information to that script?</p>
-<p class="incremental">How do we let the script have access to information about the HTTP request
+<p class="incremental">What if you want to pass information to that script?</p>
+<p class="incremental">How can you give the script access to information about the HTTP request
 itself?</p>
 </div>
 <div class="slide" id="stepping-away">
@@ -493,8 +493,8 @@ operands sent via the url query is returned.</li>
 <h1>Alternatives to CGI</h1>
 <p>The most popular approach is to have a long-running process <em>inside</em> the
 server that handles CGI scripts.</p>
-<p class="incremental">FastCGI and SCGI are existing implementations of CGI in this fashion.
-<strong>mod_python</strong> offers a similar capability for Python code.</p>
+<p class="incremental">FastCGI and SCGI are existing implementations of CGI in this fashion. The
+Apache module <strong>mod_python</strong> offers a similar capability for Python code.</p>
 <ul class="incremental simple">
 <li>Each of these options has a specific API</li>
 <li>None are compatible with each-other</li>
@@ -860,9 +860,9 @@ title is a link to the detail page for that book</p>
 <span class="k">def</span> <span class="nf">books</span><span class="p">():</span>
     <span class="n">all_books</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">titles</span><span class="p">()</span>
     <span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="s">'&lt;h1&gt;My Bookshelf&lt;/h1&gt;'</span><span class="p">,</span> <span class="s">'&lt;ul&gt;'</span><span class="p">]</span>
-    <span class="n">item_template</span> <span class="o">=</span> <span class="s">'&lt;li&gt;&lt;a href=&quot;/book/</span><span class="si">%(id)s</span><span class="s">&quot;&gt;</span><span class="si">%(title)s</span><span class="s">&lt;/a&gt;&lt;/li&gt;'</span>
+    <span class="n">item_template</span> <span class="o">=</span> <span class="s">'&lt;li&gt;&lt;a href=&quot;/book/{id}&quot;&gt;{title}&lt;/a&gt;&lt;/li&gt;'</span>
     <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">all_books</span><span class="p">:</span>
-        <span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item_template</span> <span class="o">%</span> <span class="n">book</span><span class="p">)</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">book</span><span class="p">))</span>
     <span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">'&lt;/ul&gt;'</span><span class="p">)</span>
     <span class="k">return</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 </pre>
@@ -897,18 +897,18 @@ http://localhost:8080/
 <pre class="code python incremental small literal-block">
 <span class="k">def</span> <span class="nf">book</span><span class="p">(</span><span class="n">book_id</span><span class="p">):</span>
     <span class="n">page</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;
-&lt;h1&gt;</span><span class="si">%(title)s</span><span class="s">&lt;/h1&gt;
+&lt;h1&gt;{title}&lt;/h1&gt;
 &lt;table&gt;
-    &lt;tr&gt;&lt;th&gt;Author&lt;/th&gt;&lt;td&gt;</span><span class="si">%(author)s</span><span class="s">&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;th&gt;Publisher&lt;/th&gt;&lt;td&gt;</span><span class="si">%(publisher)s</span><span class="s">&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;th&gt;ISBN&lt;/th&gt;&lt;td&gt;</span><span class="si">%(isbn)s</span><span class="s">&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;Author&lt;/th&gt;&lt;td&gt;{author}&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;Publisher&lt;/th&gt;&lt;td&gt;{publisher}&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;ISBN&lt;/th&gt;&lt;td&gt;{isbn}&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;
 &lt;a href=&quot;/&quot;&gt;Back to the list&lt;/a&gt;
 &quot;&quot;&quot;</span>
     <span class="n">book</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">title_info</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">book</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NameError</span>
-    <span class="k">return</span> <span class="n">page</span> <span class="o">%</span> <span class="n">book</span>
+    <span class="k">return</span> <span class="n">page</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">book</span><span class="p">)</span>
 </pre>
 </div>
 <div class="slide" id="revel-in-your-success">
@@ -929,6 +929,39 @@ http://localhost:8080/
 it serves</li>
 </ul>
 </div>
+<div class="slide" id="homework">
+<h1>Homework</h1>
+<p>For your homework this week, you'll be creating a wsgi application of your
+own.</p>
+<p class="incremental">As the source of your data, use the mashup you created last week.</p>
+<p class="incremental">Your application should have at least two separate &quot;pages&quot; in it.</p>
+<p class="incremental">The HTML you produce does not need to be pretty, but it should be something
+that shows up in a browser.</p>
+</div>
+<div class="slide" id="submitting-your-homework">
+<h1>Submitting Your Homework</h1>
+<p>To submit your homework:</p>
+<ul class="small simple">
+<li>Create a new python script in <tt class="docutils literal">assignments/session04</tt>. It should be
+something I can run with:</li>
+</ul>
+<pre class="small literal-block">
+$ python your_script.py
+</pre>
+<ul class="small simple">
+<li>Once your script is running, I should be able to view your application in my
+browser.</li>
+<li>Include all instructions I need to successfully run and view your script.</li>
+<li>Add tests for your code. I should be able to run the tests like so:</li>
+</ul>
+<pre class="small literal-block">
+$ python tests.py
+</pre>
+<ul class="small simple">
+<li>Commit your changes to your fork of the repo in github, then open a pull
+request.</li>
+</ul>
+</div>
 <div class="slide" id="wrap-up">
 <h1>Wrap-Up</h1>
 <p>For educational purposes, you might wish to take a look at the source code for
@@ -941,7 +974,7 @@ the <tt class="docutils literal">wsgiref</tt> module. It's the canonical example
 ...
 </pre>
 </blockquote>
-<p class="incremental center"><strong>See You Tomorrow!</strong></p>
+<p class="incremental center"><strong>See you Next Time</strong></p>
 </div>
 </div>
 </body>
