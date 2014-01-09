@@ -413,7 +413,7 @@ prefixed by <tt class="docutils literal">IPPROTO_</tt>:</p>
  255: 'IPPROTO_RAW'}
 </pre>
 <p class="incremental">The choice of which protocol to use for a socket is determined by the
-<em>internet layer</em> protocol you intend to use. <tt class="docutils literal">TCP</tt>? <tt class="docutils literal">UPD</tt>? <tt class="docutils literal">ICMP</tt>?
+<em>internet layer</em> protocol you intend to use. <tt class="docutils literal">TCP</tt>? <tt class="docutils literal">UDP</tt>? <tt class="docutils literal">ICMP</tt>?
 <tt class="docutils literal">IGMP</tt>?</p>
 </div>
 <div class="slide" id="id18">
@@ -792,7 +792,7 @@ then be sure to close your client socket too:</p>
 &gt;&gt;&gt; client_socket.close()
 </pre>
 <p>And now that we're done, we can close up the server too (back in the server
-iterpreter):</p>
+interpreter):</p>
 <pre class="literal-block">
 &gt;&gt;&gt; server_socket.close()
 </pre>
