@@ -30,7 +30,7 @@ def server(log_buffer=sys.stderr):
             #       the client so we can report it below.  Replace the 
             #       following line with your code. It is only here to prevent
             #       syntax errors
-	    conn, addr = sock.accept()
+            conn, addr = sock.accept()
             try:
                 print >>log_buffer, 'connection - {0}:{1}'.format(*addr)
 
@@ -49,10 +49,10 @@ def server(log_buffer=sys.stderr):
                     #       received.  If so, send the data you got back to 
                     #       the client.  If not, exit the inner loop and wait
                     #       for a new connection from a client
-		    if data:
-			conn.sendall(data)
-		    else:
-			break
+                    if data:
+                        conn.sendall(data)
+                    else:
+                        break
 
             finally:
                 # TODO: When the inner loop exits, this 'finally' clause will
@@ -60,7 +60,7 @@ def server(log_buffer=sys.stderr):
                 #       created above when a client connected.  Replace the
                 #       call to `pass` below, which is only there to prevent 
                 #       syntax problems
-		conn.close()
+                conn.close()
             
     except KeyboardInterrupt:
         # TODO: Use the python KeyboardIntterupt exception as a signal to 
@@ -68,7 +68,7 @@ def server(log_buffer=sys.stderr):
         #       Replace the call to `pass` below, which is only there to 
         #       prevent syntax problems
         sock.close()
-	sys.exit(0)
+        sys.exit(0)
 
 
 if __name__ == '__main__':
