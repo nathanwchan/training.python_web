@@ -10,12 +10,14 @@ def client(msg, log_buffer=sys.stderr):
     print >>log_buffer, 'connecting to {0} port {1}'.format(*server_address)
     # TODO: connect your socket to the server here.
     sock.connect(server_address)
+
     # this try/finally block exists purely to allow us to close the socket
     # when we are finished with it
     try:
         print >>log_buffer, 'sending "{0}"'.format(msg)
         # TODO: send your message to the server here.
-	sock.sendall(msg)
+        sock.sendall(msg)
+
         # TODO: the server should be sending you back your message as a series
         #       of 16-byte chunks.  You will want to log them as you receive 
         #       each one.  You will also need to check to make sure that 
@@ -35,6 +37,7 @@ def client(msg, log_buffer=sys.stderr):
         #       the server you will want to close your client socket.
         print >>log_buffer, 'closing socket'
         sock.close()
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

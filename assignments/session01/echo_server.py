@@ -11,6 +11,7 @@ def server(log_buffer=sys.stderr):
     # TODO: Set an option to allow the socket address to be reused immediately
     #       see the end of http://docs.python.org/2/library/socket.html
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
     # log that we are building a server
     print >>log_buffer, "making a server on {0}:{1}".format(*address)
     
