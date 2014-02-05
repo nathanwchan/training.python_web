@@ -10,17 +10,53 @@ def book(book_id):
 
 
 def books():
+    all_books = DB.titles()
+    body = ['<h1>My Bookshelf</h1>', '<ul>']
+    item_template = '<li><a href="/book/{id}">{title}</a></li>'
+    for book in all_books:
+        body.append(item_template.format(**book))
+    body.append('</ul>')
+    return '\n'.join(body)
     return "<h1>a list of books</h1>"
 
 
 def application(environ, start_response):
     status = "200 OK"
+
+def resolve_path(path):
+    urls = [(r'^$', books),
+            (r'^book/(id[\d]+)$', book)]
+    matchpath = path.lstrip('/')
+    for regexp, func in urls:
+        match = re.match(regexp, matchpath)
+        if match is None:
+            continue
+        args = match.groups([])
+        return func, args
+    raise NameError
+
+
+def application(environ, start_response):    
     headers = [('Content-type', 'text/html')]
+    try:
+        path = environ.get('PATH_INFO', None)
+        if not path:
+            raise NameError
+        func, args = resolve_path(path)
+        body = func(*args)
+        status = "200 OK"
+    except NameError:
+        status = "404 Not Found"
+        body = "<h1>Not Found</h1>"
+    except Exception:
+        status = "500 Internal Server Error"
+        body = "<h1>Internal Server Error</h1>"
+    headers.append(('Content-length', str(len(body))))
     start_response(status, headers)
-    return ["<h1>No Progress Yet</h1>", ]
+    return [body]
 
 
 if __name__ == '__main__':
     from wsgiref.simple_server import make_server
-    srv = make_server('localhost', 8080, application)
+    srv = make_server('localhost', 8085, application)
     srv.serve_forever()

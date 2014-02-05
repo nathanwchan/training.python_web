@@ -4,6 +4,7 @@ import cgitb
 cgitb.enable()
 import os
 import datetime
+import socket
 
 
 default = "No Value Present"
@@ -32,13 +33,13 @@ The request arrived at %s<br>
 </body>
 </html>""" % (
         os.environ.get('SERVER_NAME', default), # Server Hostname
-        'aaaa', # server IP
-        'bbbb', # server port
-        'cccc', # client hostname
-        'dddd', # client IP
-        'eeee', # client port
-        'ffff', # this script name
-        'gggg', # time
+        socket.gethostbyname(os.environ.get('SERVER_NAME', default)), # server IP
+        os.environ.get('SERVER_PORT', default), # server port
+        os.environ.get('REMOTE_HOST', default), # client hostname
+        os.environ.get('REMOTE_ADDR', default), # client IP
+        os.environ.get('REMOTE_PORT', default), # client port
+        os.environ.get('SCRIPT_NAME', default), # this script name
+        datetime.datetime.now(), # time
         )
 
 print body,

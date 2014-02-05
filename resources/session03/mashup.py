@@ -4,9 +4,7 @@ import pprint
 import requests
 
 
-def fetch_search_results(
-    query=None, minAsk=None, maxAsk=None, bedrooms=None
-):
+def fetch_search_results(query=None, minAsk=None, maxAsk=None, bedrooms=None):
     incoming = locals().copy()
     base = 'http://seattle.craigslist.org/search/apa'
     search_params = dict(
@@ -20,6 +18,7 @@ def fetch_search_results(
 
 
 def parse_source(html, encoding='utf-8'):
+    html = open('craigslist_results.html', 'r')
     parsed = BeautifulSoup(html, from_encoding=encoding)
     return parsed
 
@@ -86,7 +85,11 @@ if __name__ == '__main__':
         minAsk=500, maxAsk=1000, bedrooms=2
     )
     doc = parse_source(html, encoding)
-    for listing in extract_listings(doc):
-        listing = add_address(listing)
-        listing = add_walkscore(listing)
-        pprint.pprint(listing)
+    listings = extract_listings(doc)
+    for listing in listings:
+        print listing
+
+    #for listing in extract_listings(doc):
+    #    listing = add_address(listing)
+    #    listing = add_walkscore(listing)
+    #    pprint.pprint(listing)
