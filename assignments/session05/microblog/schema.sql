@@ -4,3 +4,9 @@ create table entries (
     title string not null,
     text string not null
 );
+
+create table users (
+    id integer primary key autoincrement,
+    username string not null,
+    password string not null
+)
